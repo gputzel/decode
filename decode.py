@@ -13,6 +13,7 @@ def decode(ciphertext,targetAlphabet,numSteps,verbose=False):
     return "plaintext"
 	
 def parse_options():
+    """Parse the command line options."""
     parser = OptionParser()
     parser.add_option("-c", "--cipher", dest="ciphertextFilename")
     parser.add_option("-a", "--alphabet", dest="alphabetFilename")
@@ -44,6 +45,7 @@ def parse_options():
     return options, args
 
 def read_texts(options):
+    """Read in target alphabet, training text, and ciphertext."""
     # Read in target alphabet.
     try:
         f = open(options.alphabetFilename,'r')
@@ -77,6 +79,7 @@ def read_texts(options):
     return alphabet, training, ciphertext
     
 def init_cipherAlphabet(alphabet, training, ciphertext):
+    """Initialize the cipher alphabet and generate the initial guess permutation."""
     # Make sure target alphabet has at least as many symbols as ciphertext.
     cipherAlphabet = list(set(ciphertext))
     if len(cipherAlphabet) > len(alphabet):
