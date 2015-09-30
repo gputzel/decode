@@ -13,6 +13,10 @@ Usage:
 
 `-a` is the 'target alphabet.' It is the alphabet of the plaintext as well as the training sample.  Note that the training text will be filtered automatically so that only characters belonging to the target alphabet remain. Also it will be made uppercase!
 
+Demo:
+-----
+<script type="text/javascript" src="https://asciinema.org/a/ce44dc927dueq027fs8rmoh9f.js" id="asciicast-ce44dc927dueq027fs8rmoh9f" async></script>
+
 `scramble.py`
 -------------
 Also provided is a tool `scramble.py`. This just makes it easy to generate example cryptograms from input plaintext. Use it as follows:
