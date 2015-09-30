@@ -2,6 +2,8 @@ decode.py
 =========
 An implementation of the Metropolis Monte Carlo method for decrypting a ciphertext (cryptogram) according to a simple substition. For background, see [this article](http://math.uchicago.edu/~shmuel/Network-course-readings/MCMCRev.pdf) by Persi Diaconis.
 
+See [decode.py in action](https://asciinema.org/a/ce44dc927dueq027fs8rmoh9f) using [asciinema](https://asciinema.org/).
+
 The program must be "trained"
 on a relatively large sample of plaintext (warandpeace.txt is included for this reason).
 
