@@ -1,12 +1,6 @@
 import math
-#Log-likelihood
+#Log-likelihood: case of general k
 def ll(ciphertext,perm,mat,k):
-    if k==1:
-        return ll_k1(ciphertext,perm,mat)
-    if k==2:
-        return ll_k2(ciphertext,perm,mat)
-    if k==3:
-        return ll_k3(ciphertext,perm,mat)
     s=0.0
     for i in range(len(ciphertext)-(k-1)):
         kmer = tuple([perm[c] for c in ciphertext[i:i+k]])
