@@ -22,6 +22,7 @@ def parse_options():
     parser.add_option("-n","--numsteps",dest="numSteps")
     parser.add_option("-k","--kmerLength",dest="k", default='2')
     parser.add_option("-v", "--verbose", action="store_true",dest="verbose", default=False)
+    parser.add_option("-p", "--temperature", dest="temperature",default="1.0")
     options, args = parser.parse_args()
     if not options.outputFilename:
         print "Please specify an output file for plain text with option -o"
@@ -107,7 +108,7 @@ def init_cipherAlphabet(alphabet, training, ciphertext):
         
     return cipherAlphabet, perm
     
-def metropolis(ciphertext, cipherAlphabet, perm, transitionMatrix, numSteps,verbose=False,k=2):
+def metropolis(ciphertext, cipherAlphabet, perm, transitionMatrix, numSteps,verbose=False,k=2,temperature=1.0):
     perm2 = perm.copy()     # "trial" permutation in Metropolis.
    
     #Choose the appropriate ll function
@@ -119,13 +120,15 @@ def metropolis(ciphertext, cipherAlphabet, perm, transitionMatrix, numSteps,verb
         llfunc = likelihood.ll_k2
     if k==3:
         llfunc = likelihood.ll_k3
+    if k==4:
+        llfunc = likelihood.ll_k4
 
     # Instead of the likelihood, we work with the log-likelihood
     # This makes it easier to deal with very small likelihoods
     # Initial log-likelihood of the message:
-    logl = likelihood.ll(ciphertext,perm,transitionMatrix,k)
+    logl = llfunc(ciphertext,perm,transitionMatrix)
     
-    beta = 1.0
+    beta = 1.0/temperature
     for t in range(1, numSteps+1):
         # Trial move that permutes symbols with index i and j in the target alphabet
         i = cipherAlphabet[random.randint(0,len(cipherAlphabet)-1)]
@@ -133,7 +136,7 @@ def metropolis(ciphertext, cipherAlphabet, perm, transitionMatrix, numSteps,verb
         # Find log-likelihood of the message with trial move.
         perm2[i]=perm[j]
         perm2[j]=perm[i]
-        lltrial=likelihood.ll(ciphertext,perm2,transitionMatrix,k)
+        lltrial=llfunc(ciphertext,perm2,transitionMatrix)
         if lltrial > logl:
             # If the trial permutation produces a higher likelihood, accept it
             logl = lltrial
@@ -175,7 +178,7 @@ def main():
     
     # Metropolis algorithm.
     perm = metropolis(ciphertext, cipherAlphabet, perm, transitionMatrix,
-                      int(options.numSteps), options.verbose, int(options.k))
+                      int(options.numSteps), options.verbose, int(options.k),float(options.temperature))
     	
     # Write the output.
     try:

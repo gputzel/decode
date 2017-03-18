@@ -30,3 +30,12 @@ def ll_k3(ciphertext,perm,mat):
         triplet = (perm[ciphertext[i]],perm[ciphertext[i+1]],perm[ciphertext[i+2]])
         s = s + math.log(mat[triplet])
     return s
+
+##Log-likelihood - hard-coded version for k=4
+def ll_k4(ciphertext,perm,mat):
+    s=0.0
+    for i in range(len(ciphertext)-3):
+        tuple = (perm[ciphertext[i]],perm[ciphertext[i+1]],perm[ciphertext[i+2]],perm[ciphertext[i+3]])
+        s = s + math.log(mat[tuple])
+    return s
+
