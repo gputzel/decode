@@ -17,6 +17,8 @@ Usage:
 
 `-k` is the length of the kmers considered by the algorithm (default:2). For k=1, it tries to match the letter frequencies of the training text. For k=2 it tries to match the frequencies of letter pairs.
 
+`-p` is the "temperature" (default: 1.0) of the Metropolis Monte Carlo algorithm. Use a higher temperature if you find the algorithm getting "stuck" in a wrong solution.
+
 `scramble.py`
 -------------
 Also provided is a tool `scramble.py`. This just makes it easy to generate example cryptograms from input plaintext. Use it as follows:
