@@ -2,7 +2,7 @@ import itertools
 
 #Learn the transition matrix from a training text
 #New version, which works with arbitrary kmers
-def LearnMatrix(trainingText,alphabet,k=2):
+def LearnMatrix(trainingText,alphabet,k):
     #The transition matrix is represented by a dictionary whose elements are kmers from the target alphabet
     mat={}
     #We will start with each matrix element equal to 0.1
