@@ -20,6 +20,7 @@ def parse_options():
     parser.add_option("-o", "--output", dest="outputFilename")
     parser.add_option("-t", "--training", dest="trainingFilename")
     parser.add_option("-n","--numsteps",dest="numSteps")
+    parser.add_option("-k","--kmerLength",dest="k", default='2')
     parser.add_option("-v", "--verbose", action="store_true",dest="verbose", default=False)
     options, args = parser.parse_args()
     if not options.outputFilename:
@@ -106,13 +107,13 @@ def init_cipherAlphabet(alphabet, training, ciphertext):
         
     return cipherAlphabet, perm
     
-def metropolis(ciphertext, cipherAlphabet, perm, transitionMatrix, numSteps,verbose=False):
+def metropolis(ciphertext, cipherAlphabet, perm, transitionMatrix, numSteps,verbose=False,k=2):
     perm2 = perm.copy()     # "trial" permutation in Metropolis.
     
     # Instead of the likelihood, we work with the log-likelihood
     # This makes it easier to deal with very small likelihoods
     # Initial log-likelihood of the message:
-    logl = likelihood.ll(ciphertext,perm,transitionMatrix)
+    logl = likelihood.ll(ciphertext,perm,transitionMatrix,k)
     
     beta = 1.0
     for t in range(1, numSteps+1):
@@ -122,7 +123,7 @@ def metropolis(ciphertext, cipherAlphabet, perm, transitionMatrix, numSteps,verb
         # Find log-likelihood of the message with trial move.
         perm2[i]=perm[j]
         perm2[j]=perm[i]
-        lltrial=likelihood.ll(ciphertext,perm2,transitionMatrix)
+        lltrial=likelihood.ll(ciphertext,perm2,transitionMatrix,k)
         if lltrial > logl:
             # If the trial permutation produces a higher likelihood, accept it
             logl = lltrial
@@ -153,7 +154,7 @@ def main():
     # Learn the transition matrices from the training text.
     if options.verbose:
         print "Learning transition matrix from training text..."
-    transitionMatrix = learn.learnMatrix(training, alphabet)
+    transitionMatrix = learn.learnMatrix(training, alphabet, int(options.k))
         
     # Initialize correspondence between cipher symbols and alphabet.
     cipherAlphabet, perm = init_cipherAlphabet(alphabet, training, ciphertext)
@@ -164,7 +165,7 @@ def main():
     
     # Metropolis algorithm.
     perm = metropolis(ciphertext, cipherAlphabet, perm, transitionMatrix,
-                      int(options.numSteps), options.verbose)
+                      int(options.numSteps), options.verbose, int(option.k))
     	
     # Write the output.
     try:
