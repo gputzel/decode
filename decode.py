@@ -165,7 +165,7 @@ def main():
     
     # Metropolis algorithm.
     perm = metropolis(ciphertext, cipherAlphabet, perm, transitionMatrix,
-                      int(options.numSteps), options.verbose, int(option.k))
+                      int(options.numSteps), options.verbose, int(options.k))
     	
     # Write the output.
     try:
