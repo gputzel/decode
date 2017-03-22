@@ -1,10 +1,15 @@
 import math
-#Log-likelihood: case of general k
-def ll(ciphertext,perm,mat,k):
+#Log-likelihood of a ciphertext: case of general k
+def ciphertextLL(ciphertext,perm,mat,k):
     s=0.0
     for i in range(len(ciphertext)-(k-1)):
-        kmer = tuple([perm[c] for c in ciphertext[i:i+k]])
-        s = s + math.log(mat[kmer])
+        kmer = ''.join([perm[c] for c in ciphertext[i:i+k]])
+        begin = kmer[:k-1]
+        end = kmer[1:]
+        if (begin in mat) and (end in mat[begin]):
+            s = s + math.log(mat[begin][end])
+        else: #Assign it some low likelihood
+            s = s - 10.0
     return s
 
 ##Log-likelihood - hard-coded version for k=1

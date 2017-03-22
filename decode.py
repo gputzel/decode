@@ -113,15 +113,15 @@ def metropolis(ciphertext, cipherAlphabet, perm, transitionMatrix, numSteps,verb
    
     #Choose the appropriate ll function
     #For speed, these have been hard-coded for k=1,2,3
-    llfunc = lambda ciphertext, perm, mat: likelihood.ll(ciphertext,perm,mat,k=k)
-    if k==1:
-        llfunc = likelihood.ll_k1
-    if k==2:
-        llfunc = likelihood.ll_k2
-    if k==3:
-        llfunc = likelihood.ll_k3
-    if k==4:
-        llfunc = likelihood.ll_k4
+    llfunc = lambda ciphertext, perm, mat: likelihood.ciphertextLL(ciphertext,perm,mat,k=k)
+    #if k==1:
+    #    llfunc = likelihood.ll_k1
+    #if k==2:
+    #    llfunc = likelihood.ll_k2
+    #if k==3:
+    #    llfunc = likelihood.ll_k3
+    #if k==4:
+    #    llfunc = likelihood.ll_k4
 
     # Instead of the likelihood, we work with the log-likelihood
     # This makes it easier to deal with very small likelihoods

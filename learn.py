@@ -1,8 +1,29 @@
 import itertools
 
+def learnMatrix(trainingText,alphabet,k):
+    mat={}
+    for i in range(len(trainingText)-(k-1)):
+        kmer = ''.join(trainingText[i:i+k])
+        begin = kmer[:k-1]
+        end = kmer[1:]
+        if begin in mat:
+            if end in mat[begin]:
+                mat[begin][end] = mat[begin][end] + 1.0
+            else:
+                mat[begin][end] = 1.0
+        else:
+            mat[begin] = {end:1.0}
+    for begin in mat.keys():
+        s = 0.0
+        for end in mat[begin].keys():
+            s += mat[begin][end]
+        for end in mat[begin].keys():
+            mat[begin][end] = mat[begin][end]/s
+    return mat
+
 #Learn the transition matrix from a training text
 #New version, which works with arbitrary kmers
-def learnMatrix(trainingText,alphabet,k):
+def learnMatrixOld(trainingText,alphabet,k):
     #The transition matrix is represented by a dictionary whose elements are kmers from the target alphabet
     mat={}
     #We will start with each matrix element equal to a small "pseudocount"

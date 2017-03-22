@@ -54,21 +54,31 @@ def generateString(transitionMatrix,alphabet,numChars,k):
     wpbegin="WELL PRINCE SO GENOA AND LUCCA"
     wpbeginnospace="WELLPRINCESOGENOAANDLUCCA"
     
-    if '_' in alphabet:
+    if ' ' in alphabet:
         state=wpbegin[:k-1]
     else:
         state=wpbeginnospace[:k-1]
-    state = tuple([c for c in state])
+    #state = tuple([c for c in state])
     charList = [c for c in state]
     for _ in range(numChars):
         r = random.random()
         s = 0.0
-        for c in alphabet:
-            s = s + transitionMatrix[state + (c,)]
-            if s > r:
-                break
-        charList.append(c)
-        state = state[1:] + (c,)
+        if state in transitionMatrix:
+            for newstate in transitionMatrix[state].keys():
+                s = s + transitionMatrix[state][newstate]
+                if s > r:
+                    break
+            state = newstate
+            charList.append(newstate[k-2])
+        else:
+            charList.append('|')
+            break
+        #for c in alphabet:
+        #    s = s + transitionMatrix[state + (c,)]
+        #    if s > r:
+        #        break
+        #charList.append(c)
+        #state = state[1:] + (c,)
     return ''.join(charList)
 
 def main():
