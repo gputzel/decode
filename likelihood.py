@@ -12,6 +12,20 @@ def ciphertextLL(ciphertext,perm,mat,k):
             s = s - 10.0
     return s
 
+#Log-likelihood of a proposed plaintext
+def plaintextLL(plaintext,mat,k):
+    s=0.0
+    for i in range(len(plaintext)-(k-1)):
+        kmer = plaintext[i:i+k]
+        begin = kmer[:k-1]
+        end = kmer[1:]
+        if (begin in mat) and (end in mat[begin]):
+            s = s + math.log(mat[begin][end])
+        else: #Assign it some low likelihood
+            s = s - 10.0
+    return s
+
+
 ##Log-likelihood - hard-coded version for k=1
 def ll_k1(ciphertext,perm,mat):
     s=0.0
