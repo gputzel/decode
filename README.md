@@ -4,6 +4,8 @@ An implementation of the Metropolis Monte Carlo method for decrypting a cipherte
 
 See [decode.py in action](https://asciinema.org/a/YWG7r5NAG1QUYy4BpfYqIS83f) using [asciinema](https://asciinema.org/).
 
+[![asciicast](https://asciinema.org/a/YWG7r5NAG1QUYy4BpfYqIS83f.png)](https://asciinema.org/a/YWG7r5NAG1QUYy4BpfYqIS83f)
+
 The program must be "trained"
 on a relatively large sample of plaintext (warandpeace.txt is included for this reason).
 
